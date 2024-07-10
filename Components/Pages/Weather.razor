@@ -11,8 +11,8 @@
 <h1>Weather</h1>
 
 <p>This component demonstrates showing data.</p>
-<button class="btn btn-outline-danger" @onclick="ViewModel.FetchWeatherForecast">Refresh</button>
-<button class="btn btn-outline-success" @onclick="ViewModel.AddWeatherForecast">Add</button>
+<button class="btn btn-outline-danger" @onclick="ViewModel.FetchWeatherForecast" disabled="@ViewModel.IsBusy">Refresh</button>
+<button class="btn btn-outline-success" @onclick="ViewModel.AddWeatherForecast" disabled="@ViewModel.IsBusy">Add</button>
 
 @if (ViewModel.WeatherForecastModel.Forecasts.Count == 0)
 {
