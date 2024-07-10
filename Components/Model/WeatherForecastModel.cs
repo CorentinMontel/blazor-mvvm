@@ -1,12 +1,13 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace BlazorAppMVVM.Components.Model;
 
-public class WeatherForecastModel : INotifyPropertyChanged
+public class WeatherForecastModel : BaseModel
 {
+    // Use Observable collection to make collection reactive
     private ObservableCollection<WeatherForecast> _forecasts = new ();
+    
+    // When forecast is set, notify change
     public ObservableCollection<WeatherForecast> Forecasts
     {
         get => _forecasts;
@@ -18,13 +19,6 @@ public class WeatherForecastModel : INotifyPropertyChanged
                 OnPropertyChanged();
             }
         }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
 

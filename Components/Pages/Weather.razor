@@ -53,15 +53,19 @@ else
             await InvokeAsync(StateHasChanged);
         };
         
+        // Subscribe to property change to make property reactive
         ViewModel.PropertyChanged += _onPropertyChangedHandler;
         
         await base.OnInitializedAsync();
+        
+        // Initial fetch
         ViewModel.FetchWeatherForecast();
     }
 
     // Avoid memory leaks with Dispose
     public void Dispose()
     {
+        // Unsubscribe property change
         ViewModel.PropertyChanged -= _onPropertyChangedHandler;
     }
 }
