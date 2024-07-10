@@ -6,8 +6,8 @@ namespace BlazorAppMVVM.Components.Model;
 
 public class WeatherForecastModel : INotifyPropertyChanged
 {
-    private ObservableCollection<WeatherForecast> _forecasts = new ObservableCollection<WeatherForecast>();
-    public ObservableCollection<WeatherForecast> forecasts
+    private ObservableCollection<WeatherForecast> _forecasts = new ();
+    public ObservableCollection<WeatherForecast> Forecasts
     {
         get => _forecasts;
         set
@@ -22,7 +22,7 @@ public class WeatherForecastModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

@@ -1,19 +1,18 @@
+using System.Collections.ObjectModel;
 using BlazorAppMVVM.Components.Model;
 
 namespace BlazorAppMVVM.Components.ViewModels;
 
 public class WeatherForecastViewModel : BaseViewModel
 {
-    private WeatherForecastModel weatherForecastModel = new WeatherForecastModel();
-    private string[] summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+    private readonly string[] _summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+
+    private WeatherForecastModel _weatherForecastModel = new WeatherForecastModel();
 
     public WeatherForecastModel WeatherForecastModel
     {
-        get => weatherForecastModel;
-        private set
-        {
-            SetValue(ref weatherForecastModel, value);
-        }
+        get => _weatherForecastModel;
+        private set => SetValue(ref _weatherForecastModel, value);
     }
     
     public async void FetchWeatherForecast()
@@ -27,15 +26,30 @@ public class WeatherForecastViewModel : BaseViewModel
         {
             Date = startDate.AddDays(index),
             TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
+        });
 
-        WeatherForecastModel.forecasts.Clear();
-        foreach (var forecast in newForecasts)
+        WeatherForecastModel.Forecasts = new ObservableCollection<WeatherForecast>(newForecasts);
+        
+
+        IsBusy = false;
+    }
+
+
+    public async void AddWeatherForecast()
+    {
+        IsBusy = true;
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
+        
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var forecast = new WeatherForecast
         {
-            WeatherForecastModel.forecasts.Add(forecast);
-        }
-
+            Date = startDate.AddDays(WeatherForecastModel.Forecasts.Count + 1),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
+        };
+        WeatherForecastModel.Forecasts.Add(forecast);
         IsBusy = false;
     }
 }

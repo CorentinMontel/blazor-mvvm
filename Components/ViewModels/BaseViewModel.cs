@@ -5,26 +5,26 @@ namespace BlazorAppMVVM.Components.ViewModels;
 
 public class BaseViewModel : INotifyPropertyChanged
 {
-    private bool isBusy = false;
+    private bool _isBusy = false;
     public bool IsBusy
     {
-        get => isBusy; 
-        set
-        {
-            SetValue(ref isBusy, value);
-        }
+        get => _isBusy;
+        protected set => SetValue(ref _isBusy, value);
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
     
-    protected void SetValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
+    protected void SetValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null!)
     {
+        // New and old value, return if same
         if (EqualityComparer<T>.Default.Equals(backingField, value)) return; 
         backingField = value;
+        
+        // Notify of property change
         OnPropertyChanged(propertyName);
     }
-    
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

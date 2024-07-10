@@ -1,6 +1,5 @@
 ﻿@page "/weather"
-@rendermode InteractiveServer
-@using BlazorAppMVVM.Components.Model
+@using System.ComponentModel
 @using BlazorAppMVVM.Components.ViewModels
 @attribute [StreamRendering]
 @inject WeatherForecastViewModel ViewModel
@@ -12,7 +11,8 @@
 <h1>Weather</h1>
 
 <p>This component demonstrates showing data.</p>
-<button @onclick="RefreshWeatherForecast">Refresh</button>
+<button class="btn btn-outline-danger" @onclick="ViewModel.FetchWeatherForecast">Refresh</button>
+<button class="btn btn-outline-success" @onclick="ViewModel.AddWeatherForecast">Add</button>
 
 @if (ViewModel.IsBusy)
 {
@@ -30,7 +30,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var forecast in ViewModel.WeatherForecastModel.forecasts)
+        @foreach (var forecast in ViewModel.WeatherForecastModel.Forecasts)
         {
             <tr>
                 <td>@forecast.Date.ToShortDateString()</td>
@@ -44,24 +44,24 @@ else
 }
 
 @code {
+    private PropertyChangedEventHandler OnPropertyChangedHandler;
+    
     protected override async Task OnInitializedAsync()
     {
-        ViewModel.PropertyChanged += async (sender, e) => { 
+        // Init OnPropertyChangedHandler
+        OnPropertyChangedHandler = async (sender, e) => { 
             await InvokeAsync(StateHasChanged);
         };
+        
+        ViewModel.PropertyChanged += OnPropertyChangedHandler;
         
         await base.OnInitializedAsync();
         ViewModel.FetchWeatherForecast();
     }
 
-    protected void RefreshWeatherForecast()
-    {
-        ViewModel.FetchWeatherForecast();
-    }
-
+    // Avoid memory leaks with Dispose
     public void Dispose()
     {
-        //ViewModel.PropertyChanged -= OnPropertyChangedHandler;
+        ViewModel.PropertyChanged -= OnPropertyChangedHandler;
     }
-
 }
