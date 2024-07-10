@@ -13,6 +13,7 @@
 <p>This component demonstrates showing data.</p>
 <button class="btn btn-outline-danger" @onclick="ViewModel.FetchWeatherForecast" disabled="@ViewModel.IsBusy">Refresh</button>
 <button class="btn btn-outline-success" @onclick="ViewModel.AddWeatherForecast" disabled="@ViewModel.IsBusy">Add</button>
+<button class="btn btn-outline-warning" @onclick="ViewModel.RemoveWeatherForecast" disabled="@ViewModel.IsBusy">Remove</button>
 
 @if (ViewModel.WeatherForecastModel.Forecasts.Count == 0)
 {
@@ -44,6 +45,7 @@ else
 }
 
 @code {
+    
     private PropertyChangedEventHandler? _onPropertyChangedHandler;
     
     protected override async Task OnInitializedAsync()
@@ -55,6 +57,7 @@ else
         
         // Subscribe to property change to make property reactive
         ViewModel.PropertyChanged += _onPropertyChangedHandler;
+        ViewModel.WeatherForecastModel.PropertyChanged += _onPropertyChangedHandler;
         
         await base.OnInitializedAsync();
         

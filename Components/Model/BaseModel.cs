@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace BlazorAppMVVM.Components.Model;
 
-public class BaseModel : INotifyPropertyChanged
+public abstract class BaseModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

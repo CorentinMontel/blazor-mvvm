@@ -4,6 +4,18 @@ namespace BlazorAppMVVM.Components.Model;
 
 public class WeatherForecastModel : BaseModel
 {
+    private int _collectionLength = 0;
+
+    public int CollectionLength
+    {
+        get => _collectionLength;
+        set
+        {
+            _collectionLength = value;
+            OnPropertyChanged();
+        }
+    }
+    
     // Use Observable collection to make collection reactive
     private ObservableCollection<WeatherForecast> _forecasts = new ();
     

@@ -31,6 +31,7 @@ public class WeatherForecastViewModel : BaseViewModel
         });
 
         WeatherForecastModel.Forecasts = new ObservableCollection<WeatherForecast>(newForecasts);
+        WeatherForecastModel.CollectionLength = newForecasts.Count();
         IsBusy = false;
     }
 
@@ -49,6 +50,16 @@ public class WeatherForecastViewModel : BaseViewModel
             Summary = _summaries[Random.Shared.Next(_summaries.Length)]
         };
         WeatherForecastModel.Forecasts.Add(forecast);
+        IsBusy = false;
+    }
+    
+    public async void RemoveWeatherForecast()
+    {
+        IsBusy = true;
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
+        
+        WeatherForecastModel.Forecasts.RemoveAt(0);
         IsBusy = false;
     }
 }
