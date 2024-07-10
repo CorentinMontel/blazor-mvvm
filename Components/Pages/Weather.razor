@@ -44,16 +44,16 @@ else
 }
 
 @code {
-    private PropertyChangedEventHandler OnPropertyChangedHandler;
+    private PropertyChangedEventHandler? _onPropertyChangedHandler;
     
     protected override async Task OnInitializedAsync()
     {
         // Init OnPropertyChangedHandler
-        OnPropertyChangedHandler = async (sender, e) => { 
+        _onPropertyChangedHandler = async (sender, e) => { 
             await InvokeAsync(StateHasChanged);
         };
         
-        ViewModel.PropertyChanged += OnPropertyChangedHandler;
+        ViewModel.PropertyChanged += _onPropertyChangedHandler;
         
         await base.OnInitializedAsync();
         ViewModel.FetchWeatherForecast();
@@ -62,6 +62,6 @@ else
     // Avoid memory leaks with Dispose
     public void Dispose()
     {
-        ViewModel.PropertyChanged -= OnPropertyChangedHandler;
+        ViewModel.PropertyChanged -= _onPropertyChangedHandler;
     }
 }
