@@ -14,7 +14,7 @@
 <button class="btn btn-outline-danger" @onclick="ViewModel.FetchWeatherForecast">Refresh</button>
 <button class="btn btn-outline-success" @onclick="ViewModel.AddWeatherForecast">Add</button>
 
-@if (ViewModel.IsBusy)
+@if (ViewModel.WeatherForecastModel.Forecasts.Count == 0)
 {
     <p><em>Loading...</em></p>
 }

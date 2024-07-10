@@ -18,6 +18,7 @@ public class WeatherForecastViewModel : BaseViewModel
     public async void FetchWeatherForecast()
     {
         IsBusy = true;
+        WeatherForecastModel.Forecasts.Clear();
         // Simulate asynchronous loading to demonstrate streaming rendering
         await Task.Delay(500);
 
@@ -30,8 +31,6 @@ public class WeatherForecastViewModel : BaseViewModel
         });
 
         WeatherForecastModel.Forecasts = new ObservableCollection<WeatherForecast>(newForecasts);
-        
-
         IsBusy = false;
     }
 
